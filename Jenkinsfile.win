@@ -7,7 +7,7 @@ pipeline {
                 checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/sbtalk71/k8s-app.git']])
             }
         }
-    }
+    
     stage('build image'){
         steps{
             bat 'mvn clean package -DskipTests'
