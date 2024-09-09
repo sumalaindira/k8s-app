@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('checkout') {
+            steps {
+                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/sbtalk71/k8s-app.git']])
+            }
+        }
+    }
+    stage('build image'){
+        steps{
+            bat 'mvn clean package -DskipTests'
+        }
+    }
+    
+    stage('push image to docker hub'){
+        steps{
+            withCredentials([string(credentialsId: 'dockerHubPwd', variable: 'dockerHubPwd')]) {
+                bat 'docker login -u sbtalk71 -p %dockerHubPwd%'
+                bat 'docker push sbtalk71/greet-service:1'
+            }
+        }
+    }
+    
+    stage('deploye to minikube'){
+        steps{
+            bat 'kubectl apply -f deployment.yaml'
+        }
+    }
+}
