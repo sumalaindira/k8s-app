@@ -60,7 +60,7 @@
 				</executions>
 				<configuration>
 					<!-- todo -->
-					<repository>sbtalk71/${project.name}</repository>
+					<repository>isumala/${project.name}</repository>
 					<tag>${project.version}</tag>
 					<buildArgs>
 						<JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
